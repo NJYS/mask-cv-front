@@ -12,9 +12,9 @@ const WebcamCapture = (props) => {
     const {camToggle, setPreview} = props;
 
     const capture = useCallback(() => {
-        camToggle();
         const imageSrc = webcamRef.current.getScreenshot();
         setPreview(imageSrc) // base64 image file
+        camToggle();
       }, [camToggle, setPreview]);
 
     return (

@@ -21,7 +21,6 @@ function App() {
 }
 
 function Home(){
-  const [img, setImage] = useState(null);
   const [previewURL, setPreview] = useState('');
   const [result, setResult] = useState('');
   const [camState, setCam] = useState(false);
@@ -34,22 +33,27 @@ function Home(){
     headers: headers
   })
 
-  const[mutateCreate, {error, reset}] = useMutation(json => api.post('masks/', json),
-    { onSuccess: (res) => {
-      setResult(res.data.result);
-    }});
+const [mutateCreate, {status: PostStatus}] = useMutation(json => api.post('masks/', json), { 
+    onSuccess: (res) => {
+      setResult(res.data.result)
+    },
+    onError : () => {
+      setResult('전송 오류')
+    },
+  });
 
   const Submit = async (e) => {
     e.preventDefault();
+
     const json = JSON.stringify({
       image : previewURL,
     })
     mutateCreate(json);
+    console.log(PostStatus);
   }
 
 
   const handleFileInput = async (event) => {
-    setImage(event.target.files[0]);
     event.preventDefault();
 
     // 파일 읽기
@@ -70,7 +74,10 @@ function Home(){
   let profile_preview = <img className='profile_preview' src={previewURL} alt=""/>
 
   // webcam
-  const camToggle = () => setCam(camState => !camState);
+  const camToggle = () => {
+    setResult('');
+    setCam(camState => !camState);
+  }
   
   //사이즈 재서 모달 가운데 위치하게
   let modal_margin = String(window.innerHeight/4)+"px"+" auto"
