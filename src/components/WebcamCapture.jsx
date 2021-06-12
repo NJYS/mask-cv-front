@@ -9,19 +9,15 @@ const videoConstraints = {
 
 const WebcamCapture = (props) => {
     const webcamRef = useRef(null);
+    const {camToggle, setPreview} = props;
 
-    const capture = useCallback(
-      () => {
-        props.camToggle();
+    const capture = useCallback(() => {
+        camToggle();
         const imageSrc = webcamRef.current.getScreenshot();
-        console.log(imageSrc) // base64 image file
-        props.setPreview(imageSrc)
-      },
-      [webcamRef]
-    );
+        setPreview(imageSrc) // base64 image file
+      }, [camToggle, setPreview]);
 
     return (
-        
           <div>
           <Webcam
             audio={false}
