@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import './App.scss';
+import './styles/Result.scss'
 import axios from 'axios';
 import ImageResizer from './components/ImageResizer.jsx';
 import WebcamCapture from './components/WebcamCapture.jsx';
-import Results from './components/Results.jsx'
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import { useMutation } from 'react-query';
 
@@ -20,11 +20,12 @@ function App() {
   );
 }
 
+
 function Home(){
   const [previewURL, setPreview] = useState('');
   const [result, setResult] = useState('');
   const [camState, setCam] = useState(false);
-    
+
   const token = `${'njys'}:${'1q2w3e4r!'}`;
   const encodedToken = Buffer.from(token).toString('base64');
   const headers = { 'Authorization': 'Basic '+ encodedToken };
@@ -33,14 +34,14 @@ function Home(){
     headers: headers
   })
 
-const [mutateCreate, {status: PostStatus}] = useMutation(json => api.post('masks/', json), { 
+  const [mutateCreate, {status: PostStatus}] = useMutation(data => api.post('masks/', data), { 
     onSuccess: (res) => {
       setResult(res.data.result)
     },
     onError : () => {
       setResult('전송 오류')
-    },
-  });
+    }
+  })
 
   const Submit = async (e) => {
     e.preventDefault();
@@ -49,8 +50,13 @@ const [mutateCreate, {status: PostStatus}] = useMutation(json => api.post('masks
       image : previewURL,
     })
     mutateCreate(json);
-    console.log(PostStatus);
   }
+
+  useEffect(() =>{ // loading check
+    if(PostStatus === 'loading'){
+      setResult('Loading...')
+    }
+  }, [PostStatus, setResult]);
 
 
   const handleFileInput = async (event) => {
@@ -69,6 +75,12 @@ const [mutateCreate, {status: PostStatus}] = useMutation(json => api.post('masks
     } catch (err) { 
       //
     }
+  }
+
+  const Result = () =>{
+    return (
+        <p id="res">{result}</p>
+    )
   }
   
   let profile_preview = <img className='profile_preview' src={previewURL} alt=""/>
@@ -98,7 +110,7 @@ const [mutateCreate, {status: PostStatus}] = useMutation(json => api.post('masks
         <div className = "body">
           <div className = "container">
             {profile_preview}
-            <Results result={result}></Results>
+            <Result/>
           </div>
           <input type = "file" id ="image_uploads" accept="image/*" onChange={handleFileInput}/>
           <button className = "btn" onClick={camToggle}>웹캠</button>
