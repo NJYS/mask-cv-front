@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import './App.scss';
+import './styles/Result.scss'
 import axios from 'axios';
 import ImageResizer from './components/ImageResizer.jsx';
 import WebcamCapture from './components/WebcamCapture.jsx';
-import Results from './components/Results.jsx'
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import { useMutation } from 'react-query';
 
@@ -20,12 +20,12 @@ function App() {
   );
 }
 
+
 function Home(){
-  const [img, setImage] = useState(null);
   const [previewURL, setPreview] = useState('');
   const [result, setResult] = useState('');
   const [camState, setCam] = useState(false);
-    
+
   const token = `${'njys'}:${'1q2w3e4r!'}`;
   const encodedToken = Buffer.from(token).toString('base64');
   const headers = { 'Authorization': 'Basic '+ encodedToken };
@@ -34,22 +34,32 @@ function Home(){
     headers: headers
   })
 
-  const[mutateCreate, {error, reset}] = useMutation(json => api.post('masks/', json),
-    { onSuccess: (res) => {
-      setResult(res.data.result);
-    }});
+  const [mutateCreate, {status: PostStatus}] = useMutation(data => api.post('masks/', data), { 
+    onSuccess: (res) => {
+      setResult(res.data.result)
+    },
+    onError : () => {
+      setResult('전송 오류')
+    }
+  })
 
   const Submit = async (e) => {
     e.preventDefault();
+
     const json = JSON.stringify({
       image : previewURL,
     })
     mutateCreate(json);
   }
 
+  useEffect(() =>{ // loading check
+    if(PostStatus === 'loading'){
+      setResult('Loading...')
+    }
+  }, [PostStatus, setResult]);
+
 
   const handleFileInput = async (event) => {
-    setImage(event.target.files[0]);
     event.preventDefault();
 
     // 파일 읽기
@@ -66,11 +76,20 @@ function Home(){
       //
     }
   }
+
+  const Result = () =>{
+    return (
+        <p id="res">{result}</p>
+    )
+  }
   
   let profile_preview = <img className='profile_preview' src={previewURL} alt=""/>
 
   // webcam
-  const camToggle = () => setCam(camState => !camState);
+  const camToggle = () => {
+    setResult('');
+    setCam(camState => !camState);
+  }
   
   //사이즈 재서 모달 가운데 위치하게
   let modal_margin = String(window.innerHeight/4)+"px"+" auto"
@@ -91,7 +110,7 @@ function Home(){
         <div className = "body">
           <div className = "container">
             {profile_preview}
-            <Results result={result}></Results>
+            <Result/>
           </div>
           <input type = "file" id ="image_uploads" accept="image/*" onChange={handleFileInput}/>
           <button className = "btn" onClick={camToggle}>웹캠</button>
