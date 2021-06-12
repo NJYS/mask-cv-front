@@ -1,26 +1,31 @@
 import React, { useState } from 'react';
 import './App.scss';
 import axios from 'axios';
-import Resizer from 'react-image-file-resizer';
-import WebcamCapture from './components/WebcamCapture';
-import Results from './components/Results'
-// axios.defaults.xsrfCookieName = "csrftoken";
-// axios.defaults.xsrfHeaderName = "X-CSRFToken";
-// const token = `${'njys'}:${'1q2w3e4r!'}`;
-// const encodedToken = Buffer.from(token).toString('base64');
-// const headers = { 'Authorization': 'Basic '+ encodedToken };
-
-// const api = axios.create({
-//   baseURL: `https://boostcamp-nyjs.herokuapp.com/`,
-//   // baseURL: `http://127.0.0.1:8000/`,
-//   headers: headers
-// })
+import ImageResizer from './components/ImageResizer.jsx';
+import WebcamCapture from './components/WebcamCapture.jsx';
+import Results from './components/Results.jsx'
+import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { useMutation } from 'react-query';
 
 function App() {
+  
+  return (
+    <BrowserRouter>
+    {/* <Link to="/">분류</Link><br />
+    <Link to="/realtime">실시간</Link> */}
+
+    <Route exact path = "/" component = {Home}/>
+    <Route path = "/realtime" component = {RealTime}/>
+    </BrowserRouter>
+  );
+}
+
+function Home(){
   const [img, setImage] = useState(null);
   const [previewURL, setPreview] = useState('');
   const [result, setResult] = useState('');
   const [camState, setCam] = useState(false);
+    
   const token = `${'njys'}:${'1q2w3e4r!'}`;
   const encodedToken = Buffer.from(token).toString('base64');
   const headers = { 'Authorization': 'Basic '+ encodedToken };
@@ -29,18 +34,22 @@ function App() {
     headers: headers
   })
 
-  // api test
-  // api.get('/masks/')
-  // .then(res =>{
-  //     console.log(res)
-  // })
-  // .catch(e=>{
-  //   console.log(e)
-  // })
-  
+  const[mutateCreate, {error, reset}] = useMutation(json => api.post('masks/', json),
+    { onSuccess: (res) => {
+      setResult(res.data.result);
+    }});
+
+  const Submit = async (e) => {
+    e.preventDefault();
+    const json = JSON.stringify({
+      image : previewURL,
+    })
+    mutateCreate(json);
+  }
+
+
   const handleFileInput = async (event) => {
     setImage(event.target.files[0]);
-
     event.preventDefault();
 
     // 파일 읽기
@@ -48,50 +57,24 @@ function App() {
       const file = event.target.files[0];
       let image = undefined;
       if (file){
-        image = await resizer(file);
-        setPreview(image)
+        image = await ImageResizer(file);
+        setPreview(image);
+        setResult('');
       }
       //console.log(image)
     } catch (err) { 
-      console.log(err) // debug
-    }
-  }
-
-  const onClick = async () => {
-    const json = JSON.stringify({
-        name: "test100",
-        image : previewURL,
-        result: '-1'
-    })
-    try {
-      const temp = await api.post('masks/', json);
-      setResult (String(temp.data.result));
-      console.log(result);
-    } catch (err) {
-      console.log(err);
+      //
     }
   }
   
-  
-  // image resizer
-  const resizer = (file) => new Promise(resolve => {
-    Resizer.imageFileResizer(
-      file, 500, 500, 'JPEG', 100, 0,
-      uri => {
-        resolve(uri);
-      },
-      'base64',
-    );
-  });
-
   let profile_preview = <img className='profile_preview' src={previewURL} alt=""/>
 
   // webcam
   const camToggle = () => setCam(camState => !camState);
-
+  
   //사이즈 재서 모달 가운데 위치하게
   let modal_margin = String(window.innerHeight/4)+"px"+" auto"
-  
+
   return (
     <>
     {camState ? 
@@ -112,10 +95,23 @@ function App() {
           </div>
           <input type = "file" id ="image_uploads" accept="image/*" onChange={handleFileInput}/>
           <button className = "btn" onClick={camToggle}>웹캠</button>
-          <button className = "btn" onClick={onClick}>제출</button>
+          <button className = "btn" onClick={Submit}>제출</button>
         </div>
     </div>
     </>
+  );
+}
+
+function RealTime({match}){
+  return (
+    <div className="background-img">
+    <div className = "head">NJYS</div>
+    <div className = "secondHead"> 실시간 마스크 확인 </div>
+  <div className = "body">
+    <div className = "container">
+    </div>
+  </div>
+</div>
   );
 }
 
