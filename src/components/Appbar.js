@@ -174,7 +174,7 @@ export default function PrimarySearchAppBar() {
             <MenuIcon />
           </IconButton> */}
           <Typography className={classes.title} variant="h6" noWrap>
-            team NJYS - Mask CV App
+            TEAM NJYS - Mask CV App
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
