@@ -2,10 +2,14 @@ import React, { useState, useEffect} from 'react';
 import './App.scss';
 import './styles/Result.scss'
 import axios from 'axios';
-import ImageResizer from './components/ImageResizer.jsx';
-import WebcamCapture from './components/WebcamCapture.jsx';
+import ImageResizer from './components/ImageResizer';
+import WebcamCapture from './components/WebcamCapture';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import { useMutation } from 'react-query';
+
+interface picture {
+  image : string;
+}
 
 function App() {
   
@@ -22,9 +26,10 @@ function App() {
 
 
 function Home(){
-  const [previewURL, setPreview] = useState('');
-  const [result, setResult] = useState('');
-  const [camState, setCam] = useState(false);
+  const [previewURL, setPreview] = useState<string>('');
+  const [result, setResult] = useState<string>('');
+  const [camState, setCam] = useState<boolean>(false);
+  const [fileValue, setFile] = useState<HTMLInputElement>();
 
   const token = `${'njys'}:${'1q2w3e4r!'}`;
   const encodedToken = Buffer.from(token).toString('base64');
@@ -34,7 +39,7 @@ function Home(){
     headers: headers
   })
 
-  const [mutateCreate, {status: PostStatus}] = useMutation(data => api.post('masks/', data), { 
+  const [mutateCreate, {status: PostStatus}] = useMutation((data: picture) => api.post('masks/', data), { 
     onSuccess: (res) => {
       setResult(res.data.result)
     },
@@ -43,13 +48,14 @@ function Home(){
     }
   })
 
-  const Submit = async (e) => {
+  const Submit = (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    const json = JSON.stringify({
+    const json : string = JSON.stringify({
       image : previewURL,
     })
-    mutateCreate(json);
+    const obj : picture = JSON.parse(json);
+    mutateCreate(obj);
   }
 
   useEffect(() =>{ // loading check
@@ -59,25 +65,26 @@ function Home(){
   }, [PostStatus, setResult]);
 
 
-  const handleFileInput = async (event) => {
-    event.preventDefault();
-
+  const handleFileInput = async (e : React.FormEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const target = e.target as HTMLInputElement;
     // 파일 읽기
+    setFile(target);
     try {
-      const file = event.target.files[0];
-      let image = undefined;
-      if (file){
-        image = await ImageResizer(file);
+      if(target){
+        let file = target.files![0];
+        const image : string = await ImageResizer(file);
         setPreview(image);
         setResult('');
       }
-      //console.log(image)
-    } catch (err) { 
-      //
+    } catch { 
+      // 오류 메시지 등록 후 박스 내 이미지 제거
+      setResult('업로드 오류');
+      setPreview('');
     }
   }
 
-  const Result = () =>{
+  const Result = () => {
     return (
         <p id="res">{result}</p>
     )
@@ -89,10 +96,15 @@ function Home(){
   const camToggle = () => {
     setResult('');
     setCam(camState => !camState);
+    // 웹캠 켰을 때 기존 사진 정보 제거
+    if(fileValue !== undefined) {
+      fileValue!.value! = '';
+      setPreview('');
+    }
   }
   
-  //사이즈 재서 모달 가운데 위치하게
-  let modal_margin = String(window.innerHeight/4)+"px"+" auto"
+  // 모달이 화면 가운데 위치하도록 계산
+  let modal_margin : string = (window.innerHeight/4).toString() +"px auto"
 
   return (
     <>
@@ -121,7 +133,7 @@ function Home(){
   );
 }
 
-function RealTime({match}){
+function RealTime(){
   return (
     <div className="background-img">
     <div className = "head">NJYS</div>
