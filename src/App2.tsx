@@ -9,21 +9,25 @@ import ImageResizer from './components/ImageResizer';
 import WebcamCapture from './components/WebcamCapture';
 
 // material UI
-import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Container from '@material-ui/core/Container';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import HomeIcon from '@material-ui/icons/Home';
 import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import AttachmentIcon from '@material-ui/icons/Attachment';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import purple from '@material-ui/core/colors/purple';
+import green from '@material-ui/core/colors/green';
+import orange from '@material-ui/core/colors/orange';
+import { CssBaseline } from '@material-ui/core';
+
 interface picture {
   image : string;
 }
@@ -42,42 +46,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const lightTheme = createMuiTheme({
-  palette: {
-    type : 'light',
-  },
-});
-
-const darkTheme = createMuiTheme({
-  palette: {
-    type : 'dark',
-  },
-});
-
 function App2() {
   const classes = useStyles();
-  // 다크모드
-  const [theme, setTheme] = useState<boolean>(true)
+  const prefersDarkMode : boolean = useMediaQuery('(prefers-color-scheme: dark)');
+  const [theme, setTheme] = useState<boolean>(prefersDarkMode) // 다크모드
   const [value, setValue] = useState(0);
-  const appliedTheme = createMuiTheme(theme ? lightTheme : darkTheme)
-  //
+
+  const appliedTheme = React.useMemo(
+    () =>
+      createMuiTheme({
+        palette: {
+          type: theme ? 'dark' : 'light',
+        },
+      }),
+    [theme],
+  );
+
+  
   return (
     <>
     <BrowserRouter>
-    {/* <Link to="/">분류</Link><br />
-    <Link to="/realtime">실시간</Link> */}
-
     <ThemeProvider theme={appliedTheme}>
-      <Appbar theme = {theme} setTheme = {setTheme} ></Appbar>
-      
+      <CssBaseline/>
+      <Appbar theme = {theme} setTheme = {setTheme}></Appbar>
       <Grid container spacing={0} direction="column" alignItems="center" justify="center">
         <Route exact path = "/" component = {Home}/>
         <Route path = "/realtime" component = {RealTime}/>
-        <BottomNavigation value={value} onChange={(event, newValue) => {setValue(newValue);}} showLabels className={classes.root}>
-            <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-            <BottomNavigationAction label="Seg-Det" icon={<CenterFocusStrongIcon />} />
-            <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
-        </BottomNavigation>
+          <BottomNavigation value={value} onChange={(event, newValue) => {setValue(newValue);}} showLabels className={classes.root}>
+            <BottomNavigationAction component = {Link} to ="/" label="Home" icon={<HomeIcon />} />
+            <BottomNavigationAction component = {Link} to ="/realtime" label="Seg-Det" icon={<CenterFocusStrongIcon />} />
+            {/* <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} /> */}
+          </BottomNavigation>
       </Grid> 
     </ThemeProvider>
     </BrowserRouter>
@@ -112,6 +111,11 @@ function Home(){
 
   const Submit = (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+
+    if(previewURL === '') { 
+      setResult('파일이 없습니다.');
+      return;
+    } 
 
     const json : string = JSON.stringify({
       image : previewURL,
@@ -154,8 +158,6 @@ function Home(){
         <p id="res">{result}</p>
     )
   }
-  
-  let profile_preview = <img className='profile_preview' src={previewURL} alt=""/>
 
   // webcam
   const camToggle = () => {
@@ -182,17 +184,17 @@ function Home(){
             </div>
           </div> 
         : null}
-          {profile_preview}
+          <img className='profile_preview' src={previewURL} alt=""/>
           <Result/>
         </Typography>
       </Container>
       <Grid container spacing={5} direction="row" alignItems="center" justify="center">
         <Grid item>
-        <input type = "file" id ="image_uploads" accept="image/*" onChange={handleFileInput} className={classes.input}/>
-        <label htmlFor="image_uploads">
-        <IconButton color="primary" aria-label="upload" component="span">
-          < AttachmentIcon/>
-        </IconButton>
+          <input type = "file" id ="image_uploads" accept="image/*" onClick ={()=>{setResult(''); setPreview('');}} onChange={handleFileInput} className={classes.input}/>
+          <label htmlFor="image_uploads">
+          <IconButton color="primary" aria-label="upload" component="span">
+            < AttachmentIcon/>
+          </IconButton>
         </label>
         </Grid>
         <Grid item>

@@ -1,6 +1,6 @@
 import React from 'react';
 import ContactusTable from './ContactusTable';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar(props) {
+export default function PrimarySearchAppBar(props : any) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -102,7 +102,7 @@ export default function PrimarySearchAppBar(props) {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleProfileMenuOpen = (event) => {
+  const handleProfileMenuOpen = (event : any) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -115,7 +115,7 @@ export default function PrimarySearchAppBar(props) {
     handleMobileMenuClose();
   };
 
-  const handleMobileMenuOpen = (event) => {
+  const handleMobileMenuOpen = (event : any) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
@@ -239,8 +239,11 @@ export default function PrimarySearchAppBar(props) {
               </Fade>
             </Modal>
             {/* 깃허브 링크 */}
-            <IconButton aria-label="link to github" color="inherit" href="https://github.com/NJYS/mask-cv-front">
-                <GitHubIcon />
+            <IconButton 
+              aria-label="link to github"
+              color="inherit" 
+              onClick= {() => window.open("https://github.com/NJYS/mask-cv-front")}>
+              <GitHubIcon />
             </IconButton>
 
             <IconButton
