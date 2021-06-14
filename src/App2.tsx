@@ -51,19 +51,19 @@ function App2() {
 
     <ThemeProvider theme={appliedTheme}>
       <Appbar theme = {theme} setTheme = {setTheme} ></Appbar>
-      <Route exact path = "/" component = {Home}/>
-      <Route path = "/realtime" component = {RealTime}/>
+        <Route exact path = "/" component = {Home}/>
+        <Route path = "/realtime" component = {RealTime}/>
       <Container maxWidth="sm" >
         <br />
         <br />
       <BottomNavigation
-      value={value}
-      onChange={(event, newValue) => {
-        setValue(newValue);
-      }}
-      showLabels
-      className={classes.root}
-    >
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+        showLabels
+        className={classes.root}
+      > 
       <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
       <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
       <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
