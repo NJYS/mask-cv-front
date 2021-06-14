@@ -7,15 +7,15 @@ const videoConstraints = {
     facingMode: "user"
   };
 
-const WebcamCapture = (props) => {
-    const webcamRef = useRef(null);
+const WebcamCapture = (props : any) => {
+    const webcamRef = useRef<any>(null);
     const {camToggle, setPreview} = props;
 
     const capture = useCallback(() => {
-        camToggle();
         const imageSrc = webcamRef.current.getScreenshot();
         setPreview(imageSrc) // base64 image file
-      }, [camToggle, setPreview]);
+        camToggle();
+      }, [webcamRef, camToggle, setPreview]);
 
     return (
           <div>
