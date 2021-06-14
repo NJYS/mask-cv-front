@@ -63,7 +63,6 @@ function App2() {
             <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
           </BottomNavigation>
       </Grid> 
-
     </ThemeProvider>
     </BrowserRouter>
     </>
