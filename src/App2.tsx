@@ -21,7 +21,6 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import HomeIcon from '@material-ui/icons/Home';
 import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 interface picture {
   image : string;
