@@ -13,6 +13,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import GitHubIcon from '@material-ui/icons/GitHub';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -193,11 +194,11 @@ export default function PrimarySearchAppBar(props) {
                 <MailIcon />
               </Badge>
             </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={0} color="secondary">
-                <NotificationsIcon />
-              </Badge>
+            {/* 깃허브 링크 */}
+            <IconButton aria-label="link to github" color="inherit" href="https://github.com/NJYS/mask-cv-front">
+                <GitHubIcon />
             </IconButton>
+            
             <IconButton
               edge="end"
               aria-label="account of current user"
