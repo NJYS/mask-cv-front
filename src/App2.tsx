@@ -21,6 +21,8 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import HomeIcon from '@material-ui/icons/Home';
 import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong';
+import IconButton from '@material-ui/core/IconButton';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
 
 interface picture {
   image : string;
@@ -64,9 +66,9 @@ function App2() {
 
     <ThemeProvider theme={appliedTheme}>
       <Appbar theme = {theme} setTheme = {setTheme} ></Appbar>
-      <Route exact path = "/" component = {Home}/>
-      <Route path = "/realtime" component = {RealTime}/>
       <Grid container spacing={0} direction="column" alignItems="center" justify="center">
+        <Route exact path = "/" component = {Home}/>
+        <Route path = "/realtime" component = {RealTime}/>
           <br />
           <br />
           <BottomNavigation value={value} onChange={(event, newValue) => {setValue(newValue);}} showLabels className={classes.root}>
@@ -122,6 +124,9 @@ function Home(){
     }
   }, [PostStatus, setResult]);
 
+  useEffect(() => {
+    if(camState) setPreview('');
+  }, [camState, setPreview]);
 
   const handleFileInput = async (e : React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -156,8 +161,7 @@ function Home(){
     setCam(camState => !camState);
     // 웹캠 켰을 때 기존 사진 정보 제거
     if(fileValue !== undefined) {
-      fileValue!.value! = '';
-      setPreview('');
+      fileValue.value = '';
     }
   }
   
@@ -166,35 +170,30 @@ function Home(){
 
   return (
     <>
-    {camState ? 
-      <div className="modal">
-        <div className="modal-content" style={{margin:modal_margin}}>
-          <WebcamCapture setPreview = {setPreview} camToggle ={camToggle}/>
-        </div>
-      </div> 
-    : null}
-      <CssBaseline />
+    <Grid container spacing={0} direction="column" alignItems="center" justify="center">
       <Container maxWidth="sm">
-        {profile_preview}
-        <Result/>
-        <Typography component="div" style={{ backgroundColor: '#cfe8fc', height: '50vh' }} />
+        <Typography component="div" align = "center" style={{ padding : '4em', backgroundColor: '#cfe8fc', height: '50vh' }}>
+        {camState ? 
+          <div className="modal">
+            <div className="modal-content" style={{margin:modal_margin}}>
+              <WebcamCapture setPreview = {setPreview} camToggle ={camToggle}/>
+            </div>
+          </div> 
+        : null}
+          {profile_preview}
+          <Result/>
+        </Typography>
       </Container>
-    <input type = "file" id ="image_uploads" accept="image/*" onChange={handleFileInput}/>
-    <button className = "btn" onClick={camToggle}>웹캠</button>
-    <button className = "btn" onClick={Submit}>제출</button>
-      <Typography component="div" align="center" className={classes.button}>
-        {/* <Button variant="contained" color="primary" >1</Button>
-        <Button variant="contained" color="primary" >2</Button>
-        <Button variant="contained" color="primary" >3</Button> */}
-        {/* <IconButton
-            edge="end"
-            color="inherit"
-            aria-label="mode"
-            onClick={() => setTheme(!theme)}
-          >
-            {icon}
-        </IconButton> */}
-      </Typography>
+      <Grid container spacing={0} direction="row" alignItems="center" justify="center">
+        <input type = "file" id ="image_uploads" accept="image/*" onChange={handleFileInput}/>
+        <label htmlFor="icon-button-file">
+        <IconButton color="primary" aria-label="upload picture" component="span" onClick={camToggle}>
+          <PhotoCamera />
+        </IconButton>
+        </label>
+        <button className = "btn" onClick={Submit}>제출</button>
+      </Grid>
+      </Grid>
     </> 
   );
 }
