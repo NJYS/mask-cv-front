@@ -1,4 +1,5 @@
 import React from 'react';
+import ContactusTable from './ContactusTable';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,6 +15,9 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import GitHubIcon from '@material-ui/icons/GitHub';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -28,30 +32,30 @@ const useStyles = makeStyles((theme) => ({
       display: 'block',
     },
   },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  // search: {
+  //   position: 'relative',
+  //   borderRadius: theme.shape.borderRadius,
+  //   backgroundColor: fade(theme.palette.common.white, 0.15),
+  //   '&:hover': {
+  //     backgroundColor: fade(theme.palette.common.white, 0.25),
+  //   },
+  //   marginRight: theme.spacing(2),
+  //   marginLeft: 0,
+  //   width: '100%',
+  //   [theme.breakpoints.up('sm')]: {
+  //     marginLeft: theme.spacing(3),
+  //     width: 'auto',
+  //   },
+  // },
+  // searchIcon: {
+  //   padding: theme.spacing(0, 2),
+  //   height: '100%',
+  //   position: 'absolute',
+  //   pointerEvents: 'none',
+  //   display: 'flex',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
   inputRoot: {
     color: 'inherit',
   },
@@ -76,6 +80,17 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       display: 'none',
     },
+  },
+  modal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  paper: {
+      backgroundColor: theme.palette.background.paper,
+      border: '2px solid #000',
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
   },
 }));
 
@@ -161,8 +176,19 @@ export default function PrimarySearchAppBar(props) {
     </Menu>
   );
 
+  //dark mode 
   const {theme, setTheme} = props;
   const icon = !theme ? <Brightness7Icon /> : <Brightness3Icon />
+  
+  //modal
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
 
   return (
     <div className={classes.grow}>
@@ -189,16 +215,34 @@ export default function PrimarySearchAppBar(props) {
             >
             {icon}
             </IconButton>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={0} color="secondary">
-                <MailIcon />
-              </Badge>
+            {/* 연락처 모달 */}
+            <IconButton aria-label="contact" color="inherit" onClick={handleOpen}>
+              <MailIcon />
             </IconButton>
+            <Modal
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              className={classes.modal}
+              open={open}
+              onClose={handleClose}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <Fade in={open}>
+                <div className={classes.paper}>
+                  <h1 id="transition-modal-title">Contact us</h1>
+                  <ContactusTable></ContactusTable>
+                </div>
+              </Fade>
+            </Modal>
             {/* 깃허브 링크 */}
             <IconButton aria-label="link to github" color="inherit" href="https://github.com/NJYS/mask-cv-front">
                 <GitHubIcon />
             </IconButton>
-            
+
             <IconButton
               edge="end"
               aria-label="account of current user"
