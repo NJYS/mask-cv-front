@@ -23,7 +23,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
-
+import AttachmentIcon from '@material-ui/icons/Attachment';
 interface picture {
   image : string;
 }
@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       margin: theme.spacing(1),
     },
+  },
+  input: {
+    display: 'none',
   },
 }));
 
@@ -66,16 +69,15 @@ function App2() {
 
     <ThemeProvider theme={appliedTheme}>
       <Appbar theme = {theme} setTheme = {setTheme} ></Appbar>
+      
       <Grid container spacing={0} direction="column" alignItems="center" justify="center">
         <Route exact path = "/" component = {Home}/>
         <Route path = "/realtime" component = {RealTime}/>
-          <br />
-          <br />
-          <BottomNavigation value={value} onChange={(event, newValue) => {setValue(newValue);}} showLabels className={classes.root}>
+        <BottomNavigation value={value} onChange={(event, newValue) => {setValue(newValue);}} showLabels className={classes.root}>
             <BottomNavigationAction label="Home" icon={<HomeIcon />} />
             <BottomNavigationAction label="Seg-Det" icon={<CenterFocusStrongIcon />} />
             <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
-          </BottomNavigation>
+        </BottomNavigation>
       </Grid> 
     </ThemeProvider>
     </BrowserRouter>
@@ -184,16 +186,27 @@ function Home(){
           <Result/>
         </Typography>
       </Container>
-      <Grid container spacing={0} direction="row" alignItems="center" justify="center">
-        <input type = "file" id ="image_uploads" accept="image/*" onChange={handleFileInput}/>
+      <Grid container spacing={5} direction="row" alignItems="center" justify="center">
+        <Grid item>
+        <input type = "file" id ="image_uploads" accept="image/*" onChange={handleFileInput} className={classes.input}/>
+        <label htmlFor="image_uploads">
+        <IconButton color="primary" aria-label="upload" component="span">
+          < AttachmentIcon/>
+        </IconButton>
+        </label>
+        </Grid>
+        <Grid item>
         <label htmlFor="icon-button-file">
         <IconButton color="primary" aria-label="upload picture" component="span" onClick={camToggle}>
           <PhotoCamera />
         </IconButton>
         </label>
-        <button className = "btn" onClick={Submit}>제출</button>
+        </Grid>
+        <Grid item>
+        <Button variant="contained" size="small" color="primary" onClick={Submit}>제출</Button>
+        </Grid>
       </Grid>
-      </Grid>
+    </Grid>
     </> 
   );
 }
