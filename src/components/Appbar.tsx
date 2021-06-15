@@ -1,5 +1,7 @@
 import React from 'react';
 import ContactusTable from './ContactusTable';
+
+import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -189,11 +191,34 @@ export default function PrimarySearchAppBar(props : any) {
   const handleClose = () => {
     setOpen(false);
   };
+  const contactModal = (
+      <Modal
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
+      className={classes.modal}
+      open={open}
+      onClose={handleClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}
+    >
+      <Fade in={open}>
+        <div className={classes.paper}>
+          <h1 id="transition-modal-title">Contact us</h1>
+          <ContactusTable></ContactusTable>
+        </div>
+      </Fade>
+    </Modal>
+  );
 
+  // github repository
+  const repoLink : string = "https://github.com/NJYS/mask-cv-front"
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           {/* <IconButton
             edge="start"
@@ -206,49 +231,32 @@ export default function PrimarySearchAppBar(props : any) {
           <Typography className={classes.title} variant="h6" noWrap>
             TEAM NJYS - Mask CV App
           </Typography>
-          <div className={classes.grow} />
+          <div className={classes.grow}/>
           <div className={classes.sectionDesktop}>
-          < Tooltip title="day/night mode">
-            <IconButton
-              edge="end"
-              color="inherit"
-              aria-label="mode"
-              onClick={() => setTheme(!theme)}
-            >
-            {icon}
-            </IconButton>
+            <Tooltip title="day/night mode">
+              <IconButton
+                edge="end"
+                color="inherit"
+                aria-label="mode"
+                onClick={() => setTheme(!theme)}
+              >
+                {icon}
+              </IconButton>
             </Tooltip>
+            <Box mr = "0.5rem"/>
             {/* 연락처 모달 */}
-            < Tooltip title="contact">
-            <IconButton aria-label="contact" color="inherit" onClick={handleOpen}>
-              <MailIcon />
-            </IconButton>
+            <Tooltip title="contact">
+              <IconButton aria-label="contact" color="inherit" onClick={handleOpen}>
+                <MailIcon />
+              </IconButton>
             </Tooltip>
-            <Modal
-              aria-labelledby="transition-modal-title"
-              aria-describedby="transition-modal-description"
-              className={classes.modal}
-              open={open}
-              onClose={handleClose}
-              closeAfterTransition
-              BackdropComponent={Backdrop}
-              BackdropProps={{
-                timeout: 500,
-              }}
-            >
-              <Fade in={open}>
-                <div className={classes.paper}>
-                  <h1 id="transition-modal-title">Contact us</h1>
-                  <ContactusTable></ContactusTable>
-                </div>
-              </Fade>
-            </Modal>
+            {contactModal}
             {/* 깃허브 링크 */}
-            < Tooltip title="github repo">
+            <Tooltip title="github repo">
             <IconButton 
               aria-label="link to github"
               color="inherit" 
-              onClick= {() => window.open("https://github.com/NJYS/mask-cv-front")}>
+              onClick= {() => window.open(repoLink)}>
               <GitHubIcon />
             </IconButton>
             </Tooltip>

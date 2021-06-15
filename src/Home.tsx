@@ -179,7 +179,7 @@ function Home(){
     return (
       <>
       <Grid container spacing={0} direction="column" alignItems="center" justify="center">
-          <Box mt="2rem"/>
+          <Box mt="10rem"/>
         <Container maxWidth="sm">
           <Grid alignItems="center" justify="center">
           <Paper elevation={4} className ={classes.main}>
@@ -190,13 +190,14 @@ function Home(){
           </Paper>
           </Grid>
         </Container>
+        <Box mb="0.5rem"/>
         <Grid container spacing={5} direction="row" alignItems="center" justify="center">
           <Grid item>
             <input type = "file" id ="image_uploads" accept="image/*" onClick ={()=>{setResult(''); setPreview('');}} onChange={handleFileInput} className = {classes.input} />
             <label htmlFor="image_uploads">
             <Tooltip title="image upload" placement="left" arrow>
             <IconButton color="primary" aria-label="upload" component="span">
-              < AttachmentIcon/>
+              <AttachmentIcon fontSize = 'large'/>
             </IconButton>
             </Tooltip>
             </label>
@@ -204,8 +205,8 @@ function Home(){
           <Grid item>
             <label htmlFor="open_webcam">
             <Tooltip title="webcam on" arrow>
-            <IconButton color="primary" aria-label="open_webcam" component="span" onClick={camToggle}>
-                <PhotoCamera />
+            <IconButton color="primary" aria-label="open_webcam" component="span" onClick={camToggle} >
+                <PhotoCamera fontSize = 'large'/>
             </IconButton>
             </Tooltip>
             </label>
@@ -215,6 +216,7 @@ function Home(){
           </Grid>
         </Grid>
       </Grid>
+      <Box mb="0.5rem"/>
       </> 
     );
   }
