@@ -19,7 +19,6 @@ import AttachmentIcon from '@material-ui/icons/Attachment';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
-import { spacing } from '@material-ui/system';
 
 //debug
 import {useQuery} from 'react-query';
@@ -74,21 +73,6 @@ function Home(){
         setResult('전송 오류')
       }
     })
-  
-    const Submit = (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      e.preventDefault();
-  
-      if(previewURL === '') { 
-        setResult('파일이 없습니다.');
-        return;
-      } 
-  
-      const json : string = JSON.stringify({
-        image : previewURL,
-      })
-      const obj : picture = JSON.parse(json);
-      mutateCreate(obj);
-    }
 
     //api test 용
     // const {isLoading : isPicLoading, data : testData} = useQuery('hello', () => {axios(`https://ec2-3-36-170-87.ap-northeast-2.compute.amazonaws.com/`)})
@@ -98,13 +82,31 @@ function Home(){
     //     console.log(testData);
     //   }
   
+    
     useEffect(() => {
       if(camState) {
           setPreview('');
           setImage(false);
         }
-    }, [camState, setPreview]);
+      else if(previewURL !== '') setImage(true);
+    }, [camState, previewURL, setPreview, setImage]);
   
+    
+    const Submit = (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+    
+        if(previewURL === '') { 
+          setResult('파일이 없습니다.');
+          return;
+        } 
+    
+        const json : string = JSON.stringify({
+          image : previewURL,
+        })
+        const obj : picture = JSON.parse(json);
+        mutateCreate(obj);
+    }
+    
     const handleFileInput = async (e : React.FormEvent<HTMLInputElement>) => {
       e.preventDefault();
       const target = e.target as HTMLInputElement;
@@ -116,7 +118,7 @@ function Home(){
         if(target){
           let file : File = target.files![0];
           const image : string = await ImageResizer(file);
-          setResult('업로드 완료');
+          setResult('');
           setPreview(image);
           setImage(true);
         }
@@ -127,16 +129,18 @@ function Home(){
         setImage(false);
       }
     }
+
     const Loading = () => { 
         return ( 
-            <Grid alignItems="center" justify="center">
-                <CircularProgress color="primary" />
-            </Grid>) 
+          <Grid alignItems="center" justify="center">
+            <CircularProgress color="primary" />
+          </Grid>
+        )
     }
 
     const Result = () => {
       return (
-          <p id="res">{result}</p>
+        <p id="res">{result}</p>
       )
     }
 
@@ -157,10 +161,9 @@ function Home(){
         <Container maxWidth="sm">
           <Typography component="div" align = "center" className ={classes.main}>
           {camState ? <WebcamCapture setPreview = {setPreview} camToggle ={camToggle}/> : null}
-          {isSetImage?  <Image
-                src={previewURL}
-            /> : null}
-            {isPicLoading ? <Loading/> : <Result/> }
+          {isSetImage?  <Image src={previewURL} /> : null}
+          <Box mt="3rem"/>
+          {isPicLoading ? <Loading/> : <Result/>}
           </Typography>
         </Container>
         <Grid container spacing={5} direction="row" alignItems="center" justify="center">
