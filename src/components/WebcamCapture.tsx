@@ -1,5 +1,11 @@
 import { useRef, useCallback} from 'react';
 import Webcam from 'react-webcam';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import IconButton from '@material-ui/core/IconButton';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
+
 
 const videoConstraints = {
     width: 512,
@@ -8,7 +14,7 @@ const videoConstraints = {
   };
 
 const WebcamCapture = (props : any) => {
-    const webcamRef = useRef<any>(null);
+    const webcamRef : React.MutableRefObject<any> = useRef<any>(null);
     const {camToggle, setPreview} = props;
 
     const capture = useCallback(() => {
@@ -18,18 +24,28 @@ const WebcamCapture = (props : any) => {
       }, [webcamRef, camToggle, setPreview]);
 
     return (
-          <div>
-          <Webcam
-            audio={false}
-            height={window.innerWidth>400 ? 300 : 300}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            width={window.innerWidth>400 ? 540 : 200}
-            videoConstraints={videoConstraints}
-          />
-        <button onClick={capture}>Capture photo</button>
-        <button onClick={() => props.camToggle()}>닫기</button>
-        </div>
+          <>
+            <Grid container direction="row" justify="center" alignItems="center">
+              <Webcam
+                audio={false}
+                height={window.innerHeight> 1024? 512 : 256}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+                width={window.innerHeight > 1024? 512: 256}
+                videoConstraints={videoConstraints}
+              />
+            </Grid>
+            <Grid container spacing={3} direction="row" alignItems="center" justify="center">
+              <Grid item>
+                <IconButton color="primary" aria-label="capture" component="span" onClick={capture}>
+                  <PhotoCamera />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <Button variant="contained" size="small" color="primary" onClick={camToggle}>종료</Button>
+              </Grid>
+            </Grid>
+        </>
     )
 }
 

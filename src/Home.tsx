@@ -14,7 +14,7 @@ import Container from '@material-ui/core/Container';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import AttachmentIcon from '@material-ui/icons/Attachment';
-import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 
 interface picture {
@@ -40,6 +40,7 @@ function Home(){
 
     const [previewURL, setPreview] = useState<string>('');
     const [result, setResult] = useState<string>('');
+
     const [camState, setCam] = useState<boolean>(false);
     const [fileValue, setFile] = useState<HTMLInputElement>();
   
@@ -92,7 +93,7 @@ function Home(){
       setFile(target);
       try {
         if(target){
-          let file = target.files![0];
+          let file : File = target.files![0];
           const image : string = await ImageResizer(file);
           setPreview(image);
           setResult('');
@@ -109,6 +110,12 @@ function Home(){
           <p id="res">{result}</p>
       )
     }
+
+    const Loading = () => {
+        return (
+            <p></p>
+        )
+      }
   
     // webcam
     const camToggle = () => {
@@ -119,22 +126,13 @@ function Home(){
         fileValue.value = '';
       }
     }
-    
-    // 모달이 화면 가운데 위치하도록 계산
-    let modal_margin : string = (window.innerHeight/4).toString() +"px auto"
   
     return (
       <>
       <Grid container spacing={0} direction="column" alignItems="center" justify="center">
         <Container maxWidth="sm">
           <Typography component="div" align = "center" style={{ padding : '4em', backgroundColor: '#cfe8fc', height: '50vh' }}>
-          {camState ? 
-            <div className="modal">
-              <div className="modal-content" style={{margin:modal_margin}}>
-                <WebcamCapture setPreview = {setPreview} camToggle ={camToggle}/>
-              </div>
-            </div> 
-          : null}
+          {camState ? <WebcamCapture setPreview = {setPreview} camToggle ={camToggle}/> : null}
             <img className='profile_preview' src={previewURL} alt=""/>
             <Result/>
           </Typography>
@@ -146,17 +144,17 @@ function Home(){
             <IconButton color="primary" aria-label="upload" component="span">
               < AttachmentIcon/>
             </IconButton>
-          </label>
+            </label>
           </Grid>
           <Grid item>
-          <label htmlFor="icon-button-file">
-          <IconButton color="primary" aria-label="upload picture" component="span" onClick={camToggle}>
-            <PhotoCamera />
-          </IconButton>
-          </label>
+            <label htmlFor="open_webcam">
+            <IconButton color="primary" aria-label="open_webcam" component="span" onClick={camToggle}>
+                <PhotoCamera />
+            </IconButton>
+            </label>
           </Grid>
           <Grid item>
-          <Button variant="contained" size="small" color="primary" onClick={Submit}>제출</Button>
+            <Button variant="contained" size="small" color="primary" onClick={Submit}>제출</Button>
           </Grid>
         </Grid>
       </Grid>

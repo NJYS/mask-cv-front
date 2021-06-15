@@ -4,7 +4,7 @@ const ImageResizer = (file : any) :Promise<string> => {
     return (
         new Promise(resolve => {
             Resizer.imageFileResizer(
-              file, 512, 512, 'JPEG', 100, 0,
+              file, 256, 256, 'JPEG', 100, 0,
               uri => {
                 resolve(uri.toString());
               },
