@@ -60,9 +60,9 @@ function RealTime(){
     return (
       <>
       <Grid container spacing={0} direction="column" alignItems="center" justify="center">
-          <Box mt="2rem"/>
+          <Box mt="10rem"/>
           <Container maxWidth="sm">
-          <Grid alignItems="center" justify="center">
+          <Grid item>
           <Paper elevation={4} className ={classes.main}>
             {camState ? <WebcamDrawing setPreview = {setPreview} camToggle ={camToggle}/> : null}
             <Box mt="3rem"/>
@@ -90,7 +90,7 @@ function RealTime(){
             <label htmlFor="open_webcam">
             <Tooltip title="webcam on/off" arrow>
             <IconButton color="primary" aria-label="open_webcam" component="span" onClick={camToggle}>
-                {camState ? <VideocamOffIcon /> : <VideocamIcon />}
+                {camState ? <VideocamOffIcon fontSize = 'large'/> : <VideocamIcon fontSize = 'large'/>}
             </IconButton>
             </Tooltip>
             </label>
