@@ -8,8 +8,8 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera';
 
 
 const videoConstraints = {
-    width: 512,
-    height: 512,
+    width: 448,
+    height: 448,
     facingMode: "user"
   };
 
@@ -25,13 +25,13 @@ const WebcamCapture = (props : any) => {
 
     return (
           <>
-            <Grid container direction="row" justify="center" alignItems="center">
+            <Grid container justify="center" alignItems="center">
               <Webcam
                 audio={false}
-                height={window.innerHeight> 1024? 512 : 256}
+                height={window.innerHeight> 512? 448 : 256}
                 ref={webcamRef}
                 screenshotFormat="image/jpeg"
-                width={window.innerHeight > 1024? 512: 256}
+                width={window.innerHeight > 512? 448 : 256}
                 videoConstraints={videoConstraints}
               />
             </Grid>

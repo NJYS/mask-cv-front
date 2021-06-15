@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import { useMutation } from 'react-query';
+import Image from 'material-ui-image'
 
 // components
 import ImageResizer from './components/ImageResizer';
@@ -17,9 +18,12 @@ import AttachmentIcon from '@material-ui/icons/Attachment';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+//debug
+import {useQuery} from 'react-query';
+
 interface picture {
     image : string;
-  }  
+  } 
 
 const useStyles = makeStyles((theme) => ({
     root : {
@@ -33,17 +37,26 @@ const useStyles = makeStyles((theme) => ({
     input: {
       display: 'none',
     },
+    main : {
+        padding : '2em',
+        backgroundColor: '#cfe8fc',
+        height: '60vh', 
+        top : '100%',
+        margin: '2em',
+        overflow: 'auto',
+        border: '2px solid palevioletred',
+        //border-radius: '5px',
+    }
 }));
 
 function Home(){
     const classes = useStyles();
 
     const [previewURL, setPreview] = useState<string>('');
+    const [isSetImage, setImage] = useState<boolean>(false);
     const [result, setResult] = useState<string>('');
-
     const [camState, setCam] = useState<boolean>(false);
     const [fileValue, setFile] = useState<HTMLInputElement>();
-    const [isLoading, setLoading] = useState<boolean>(false);
     const token = `${'njys'}:${'1q2w3e4r!'}`;
     const encodedToken = Buffer.from(token).toString('base64');
     const headers = { 'Authorization': 'Basic '+ encodedToken };
@@ -52,7 +65,8 @@ function Home(){
       headers: headers
     })
   
-    const [mutateCreate, {status: PostStatus}] = useMutation((data: picture) => api.post('masks/', data), { 
+    const [mutateCreate, {isLoading : isPicLoading}] = useMutation(
+        (data: picture) => api.post('masks/', data), { 
       onSuccess: (res) => {
         setResult(res.data.result)
       },
@@ -75,18 +89,20 @@ function Home(){
       const obj : picture = JSON.parse(json);
       mutateCreate(obj);
     }
-  
-    useEffect(() =>{ // loading check
-      if(PostStatus === 'loading'){
-        setLoading(true);
-      }
-      else {
-        setLoading(false);
-      }
-    }, [PostStatus, setResult, setLoading]);
+
+    //api test 용
+    // const {isLoading : isPicLoading, data : testData} = useQuery('hello', () => {axios(`https://ec2-3-36-170-87.ap-northeast-2.compute.amazonaws.com/`)})
+    
+    // const Submit = (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    //     e.preventDefault();
+    //     console.log(testData);
+    //   }
   
     useEffect(() => {
-      if(camState) setPreview('');
+      if(camState) {
+          setPreview('');
+          setImage(false);
+        }
     }, [camState, setPreview]);
   
     const handleFileInput = async (e : React.FormEvent<HTMLInputElement>) => {
@@ -100,11 +116,13 @@ function Home(){
           const image : string = await ImageResizer(file);
           setPreview(image);
           setResult('');
+          setImage(true);
         }
       } catch { 
         // 오류 메시지 등록 후 박스 내 이미지 제거
         setResult('업로드 오류');
         setPreview('');
+        setImage(false);
       }
     }
     const Loading = () => { 
@@ -119,7 +137,7 @@ function Home(){
           <p id="res">{result}</p>
       )
     }
-    
+
     // webcam
     const camToggle = () => {
       setResult('');
@@ -134,10 +152,12 @@ function Home(){
       <>
       <Grid container spacing={0} direction="column" alignItems="center" justify="center">
         <Container maxWidth="sm">
-          <Typography component="div" align = "center" style={{ padding : '4em', backgroundColor: '#cfe8fc', height: '50vh' }}>
+          <Typography component="div" align = "center" className ={classes.main}>
           {camState ? <WebcamCapture setPreview = {setPreview} camToggle ={camToggle}/> : null}
-            <img className='profile_preview' src={previewURL} alt=""/>
-            {isLoading ? <Loading/> : <Result/> }
+          {isSetImage?  <Image
+                src={previewURL}
+            /> : null}
+            {isPicLoading ? <Loading/> : <Result/> }
           </Typography>
         </Container>
         <Grid container spacing={5} direction="row" alignItems="center" justify="center">
@@ -157,7 +177,7 @@ function Home(){
             </label>
           </Grid>
           <Grid item>
-            <Button variant="contained" size="small" color="primary" onClick={Submit}>제출</Button>
+            <Button variant="contained" size="small" color="primary" onClick={Submit}>✨제출</Button>
           </Grid>
         </Grid>
       </Grid>
