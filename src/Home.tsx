@@ -43,7 +43,7 @@ function Home(){
 
     const [camState, setCam] = useState<boolean>(false);
     const [fileValue, setFile] = useState<HTMLInputElement>();
-    const [isloading, setLoading] = useState<boolean>(false);
+    const [isLoading, setLoading] = useState<boolean>(false);
     const token = `${'njys'}:${'1q2w3e4r!'}`;
     const encodedToken = Buffer.from(token).toString('base64');
     const headers = { 'Authorization': 'Basic '+ encodedToken };
@@ -79,7 +79,6 @@ function Home(){
     useEffect(() =>{ // loading check
       if(PostStatus === 'loading'){
         setLoading(true);
-        setResult('');
       }
       else {
         setLoading(false);
@@ -108,19 +107,19 @@ function Home(){
         setPreview('');
       }
     }
-    const Loading = () => { return ( <Grid alignItems="center" justify="center"><CircularProgress color="primary" /></Grid>) }
+    const Loading = () => { 
+        return ( 
+            <Grid alignItems="center" justify="center">
+                <CircularProgress color="primary" />
+            </Grid>) 
+    }
+
     const Result = () => {
       return (
           <p id="res">{result}</p>
       )
     }
-
-    const Loading = () => {
-        return (
-            <p></p>
-        )
-      }
-  
+    
     // webcam
     const camToggle = () => {
       setResult('');
@@ -138,7 +137,7 @@ function Home(){
           <Typography component="div" align = "center" style={{ padding : '4em', backgroundColor: '#cfe8fc', height: '50vh' }}>
           {camState ? <WebcamCapture setPreview = {setPreview} camToggle ={camToggle}/> : null}
             <img className='profile_preview' src={previewURL} alt=""/>
-            {isloading ? <Loading/> : <Result/> }
+            {isLoading ? <Loading/> : <Result/> }
           </Typography>
         </Container>
         <Grid container spacing={5} direction="row" alignItems="center" justify="center">
