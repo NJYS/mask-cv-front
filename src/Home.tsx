@@ -8,6 +8,7 @@ import ImageResizer from './components/ImageResizer';
 import WebcamCapture from './components/WebcamCapture';
 
 // material UI
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -18,6 +19,7 @@ import AttachmentIcon from '@material-ui/icons/Attachment';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
+import { spacing } from '@material-ui/system';
 
 //debug
 import {useQuery} from 'react-query';
@@ -41,11 +43,9 @@ const useStyles = makeStyles((theme) => ({
         padding : '2em',
         backgroundColor: '#cfe8fc',
         height: '60vh', 
-        top : '100%',
-        margin: '2em',
+        //margin: '1em',
         overflow: 'auto',
         border: '2px solid palevioletred',
-        //border-radius: '5px',
     }
 }));
 
@@ -110,12 +110,14 @@ function Home(){
       const target = e.target as HTMLInputElement;
       // 파일 읽기
       setFile(target);
+      if(camState) setCam(false);
+
       try {
         if(target){
           let file : File = target.files![0];
           const image : string = await ImageResizer(file);
+          setResult('업로드 완료');
           setPreview(image);
-          setResult('');
           setImage(true);
         }
       } catch { 
@@ -151,6 +153,7 @@ function Home(){
     return (
       <>
       <Grid container spacing={0} direction="column" alignItems="center" justify="center">
+          <Box mt="2rem"/>
         <Container maxWidth="sm">
           <Typography component="div" align = "center" className ={classes.main}>
           {camState ? <WebcamCapture setPreview = {setPreview} camToggle ={camToggle}/> : null}
