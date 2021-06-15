@@ -8,6 +8,7 @@ import ImageResizer from './components/ImageResizer';
 import WebcamCapture from './components/WebcamCapture';
 
 // material UI
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -44,8 +45,7 @@ const useStyles = makeStyles((theme) => ({
         padding : '2em',
         backgroundColor: '#cfe8fc',
         height: '60vh', 
-        top : '100%',
-        margin: '2em',
+        //margin: '1em',
         overflow: 'auto',
         // border: '2px solid palevioletred',
         //border-radius: '5px',
@@ -92,21 +92,6 @@ function Home(){
         setResult('전송 오류')
       }
     })
-  
-    const Submit = (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      e.preventDefault();
-  
-      if(previewURL === '') { 
-        setResult('파일이 없습니다.');
-        return;
-      } 
-  
-      const json : string = JSON.stringify({
-        image : previewURL,
-      })
-      const obj : picture = JSON.parse(json);
-      mutateCreate(obj);
-    }
 
     //api test 용
     // const {isLoading : isPicLoading, data : testData} = useQuery('hello', () => {axios(`https://ec2-3-36-170-87.ap-northeast-2.compute.amazonaws.com/`)})
@@ -116,24 +101,44 @@ function Home(){
     //     console.log(testData);
     //   }
   
+    
     useEffect(() => {
       if(camState) {
           setPreview('');
           setImage(false);
         }
-    }, [camState, setPreview]);
+      else if(previewURL !== '') setImage(true);
+    }, [camState, previewURL, setPreview, setImage]);
   
+    
+    const Submit = (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+    
+        if(previewURL === '') { 
+          setResult('파일이 없습니다.');
+          return;
+        } 
+    
+        const json : string = JSON.stringify({
+          image : previewURL,
+        })
+        const obj : picture = JSON.parse(json);
+        mutateCreate(obj);
+    }
+    
     const handleFileInput = async (e : React.FormEvent<HTMLInputElement>) => {
       e.preventDefault();
       const target = e.target as HTMLInputElement;
       // 파일 읽기
       setFile(target);
+      if(camState) setCam(false);
+
       try {
         if(target){
           let file : File = target.files![0];
           const image : string = await ImageResizer(file);
-          setPreview(image);
           setResult('');
+          setPreview(image);
           setImage(true);
         }
       } catch { 
@@ -143,6 +148,7 @@ function Home(){
         setImage(false);
       }
     }
+
     const Loading = () => { 
         return ( 
             <Box  display="flex" alignItems="center" justifyContent="center" className = {classes.progressCircle}>
@@ -174,6 +180,7 @@ function Home(){
     return (
       <>
       <Grid container spacing={0} direction="column" alignItems="center" justify="center">
+          <Box mt="2rem"/>
         <Container maxWidth="sm">
           <Grid alignItems="center" justify="center">
           <Paper elevation={4} className ={classes.main}>

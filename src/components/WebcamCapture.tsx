@@ -2,10 +2,7 @@ import { useRef, useCallback} from 'react';
 import Webcam from 'react-webcam';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
-import IconButton from '@material-ui/core/IconButton';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-
+import Box from '@material-ui/core/Box';
 
 const videoConstraints = {
     width: 448,
@@ -35,11 +32,10 @@ const WebcamCapture = (props : any) => {
                 videoConstraints={videoConstraints}
               />
             </Grid>
-            <Grid container spacing={3} direction="row" alignItems="center" justify="center">
+            <Box mt = "1rem"/>
+            <Grid container spacing={5} direction="row" alignItems="center" justify="center">
               <Grid item>
-                <IconButton color="primary" aria-label="capture" component="span" onClick={capture}>
-                  <PhotoCamera />
-                </IconButton>
+                <Button variant="contained" size="small" color="primary" onClick={capture}>캡쳐</Button>
               </Grid>
               <Grid item>
                 <Button variant="contained" size="small" color="primary" onClick={camToggle}>종료</Button>
