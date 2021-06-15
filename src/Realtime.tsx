@@ -70,7 +70,7 @@ function RealTime(){
           </Grid>
         </Container>
         <Box mb="0.5rem"/>
-        <Grid container spacing={5} direction="row" alignItems="center" justify="center">
+        <Grid container spacing={3} direction="row" alignItems="center" justify="center">
           <Grid item>
             <Tooltip title="classification" arrow>
               <Button variant="contained" size="small" color="primary">class🧡</Button>

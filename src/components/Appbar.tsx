@@ -1,5 +1,7 @@
 import React from 'react';
 import ContactusTable from './ContactusTable';
+
+import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -241,6 +243,7 @@ export default function PrimarySearchAppBar(props : any) {
                 {icon}
               </IconButton>
             </Tooltip>
+            <Box mr = "0.5rem"/>
             {/* 연락처 모달 */}
             <Tooltip title="contact">
               <IconButton aria-label="contact" color="inherit" onClick={handleOpen}>
