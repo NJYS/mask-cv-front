@@ -42,7 +42,7 @@ const WebcamCapture = (props : any) => {
               </Grid>
             </Grid>
         </>
-    )
+    );
 }
 
 export default WebcamCapture
