@@ -15,7 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import AttachmentIcon from '@material-ui/icons/Attachment';
 import { makeStyles } from '@material-ui/core/styles';
-import { CssBaseline } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 interface picture {
     image : string;
@@ -43,7 +43,7 @@ function Home(){
 
     const [camState, setCam] = useState<boolean>(false);
     const [fileValue, setFile] = useState<HTMLInputElement>();
-  
+    const [isloading, setLoading] = useState<boolean>(false);
     const token = `${'njys'}:${'1q2w3e4r!'}`;
     const encodedToken = Buffer.from(token).toString('base64');
     const headers = { 'Authorization': 'Basic '+ encodedToken };
@@ -78,9 +78,13 @@ function Home(){
   
     useEffect(() =>{ // loading check
       if(PostStatus === 'loading'){
-        setResult('Loading...')
+        setLoading(true);
+        setResult('');
       }
-    }, [PostStatus, setResult]);
+      else {
+        setLoading(false);
+      }
+    }, [PostStatus, setResult, setLoading]);
   
     useEffect(() => {
       if(camState) setPreview('');
@@ -104,7 +108,7 @@ function Home(){
         setPreview('');
       }
     }
-  
+    const Loading = () => { return ( <Grid alignItems="center" justify="center"><CircularProgress color="primary" /></Grid>) }
     const Result = () => {
       return (
           <p id="res">{result}</p>
@@ -134,7 +138,7 @@ function Home(){
           <Typography component="div" align = "center" style={{ padding : '4em', backgroundColor: '#cfe8fc', height: '50vh' }}>
           {camState ? <WebcamCapture setPreview = {setPreview} camToggle ={camToggle}/> : null}
             <img className='profile_preview' src={previewURL} alt=""/>
-            <Result/>
+            {isloading ? <Loading/> : <Result/> }
           </Typography>
         </Container>
         <Grid container spacing={5} direction="row" alignItems="center" justify="center">
