@@ -18,6 +18,7 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -207,6 +208,7 @@ export default function PrimarySearchAppBar(props : any) {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+          < Tooltip title="day/night mode">
             <IconButton
               edge="end"
               color="inherit"
@@ -215,10 +217,13 @@ export default function PrimarySearchAppBar(props : any) {
             >
             {icon}
             </IconButton>
+            </Tooltip>
             {/* 연락처 모달 */}
+            < Tooltip title="contact">
             <IconButton aria-label="contact" color="inherit" onClick={handleOpen}>
               <MailIcon />
             </IconButton>
+            </Tooltip>
             <Modal
               aria-labelledby="transition-modal-title"
               aria-describedby="transition-modal-description"
@@ -239,12 +244,14 @@ export default function PrimarySearchAppBar(props : any) {
               </Fade>
             </Modal>
             {/* 깃허브 링크 */}
+            < Tooltip title="github repo">
             <IconButton 
               aria-label="link to github"
               color="inherit" 
               onClick= {() => window.open("https://github.com/NJYS/mask-cv-front")}>
               <GitHubIcon />
             </IconButton>
+            </Tooltip>
 
            {/* <IconButton
               edge="end"

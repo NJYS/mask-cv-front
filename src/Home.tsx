@@ -17,10 +17,10 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import AttachmentIcon from '@material-ui/icons/Attachment';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Tooltip from '@material-ui/core/Tooltip';
 
 //debug
 import {useQuery} from 'react-query';
-
 interface picture {
     image : string;
   } 
@@ -164,16 +164,20 @@ function Home(){
           <Grid item>
             <input type = "file" id ="image_uploads" accept="image/*" onClick ={()=>{setResult(''); setPreview('');}} onChange={handleFileInput} className = {classes.input} />
             <label htmlFor="image_uploads">
+            <Tooltip title="image upload" placement="left" arrow>
             <IconButton color="primary" aria-label="upload" component="span">
               < AttachmentIcon/>
             </IconButton>
+            </Tooltip>
             </label>
           </Grid>
           <Grid item>
             <label htmlFor="open_webcam">
+            <Tooltip title="webcam on" arrow>
             <IconButton color="primary" aria-label="open_webcam" component="span" onClick={camToggle}>
                 <PhotoCamera />
             </IconButton>
+            </Tooltip>
             </label>
           </Grid>
           <Grid item>
