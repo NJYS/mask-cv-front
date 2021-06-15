@@ -16,7 +16,7 @@ import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/sty
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Container from '@material-ui/core/Container';
-import HomeIcon from '@material-ui/icons/Home';
+import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong';
 import IconButton from '@material-ui/core/IconButton'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -67,7 +67,7 @@ function App2() {
         <Route exact path = "/" component = {Home}/>
         <Route path = "/realtime" component = {Realtime}/>
           <BottomNavigation value={value} onChange={(event, newValue) => {setValue(newValue);}} showLabels className={classes.root}>
-            <BottomNavigationAction component = {Link} to ="/" label="Home" icon={<HomeIcon />} />
+            <BottomNavigationAction component = {Link} to ="/" label="Classify" icon={<ImageSearchIcon />} />
             <BottomNavigationAction component = {Link} to ="/realtime" label="Seg-Det" icon={<CenterFocusStrongIcon />} />
             {/* <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} /> */}
           </BottomNavigation>
