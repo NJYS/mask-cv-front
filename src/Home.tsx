@@ -21,7 +21,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
 
 //debug
 import {useQuery} from 'react-query';
@@ -184,10 +183,9 @@ function Home(){
         <Container maxWidth="sm">
           <Grid alignItems="center" justify="center">
           <Paper elevation={4} className ={classes.main}>
-          {camState ? <WebcamCapture setPreview = {setPreview} camToggle ={camToggle}/> : null}
-          {isSetImage?  <Image
-                src={previewURL}
-            /> : null}
+            {camState ? <WebcamCapture setPreview = {setPreview} camToggle ={camToggle}/> : null}
+            {isSetImage?  <Image src={previewURL}/> : null}
+            <Box mt="3rem"/>
             {isPicLoading ? <Loading/> : <Result/> }
           </Paper>
           </Grid>
