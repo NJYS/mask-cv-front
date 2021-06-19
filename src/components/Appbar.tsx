@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 import ContactusTable from './ContactusTable';
 
 import Box from '@material-ui/core/Box';
@@ -7,15 +7,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import Brightness3Icon from "@material-ui/icons/Brightness3";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -31,34 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     display: 'block'
-    // [theme.breakpoints.up('sm')]: {
-    //   display: 'block',
-    //},
   },
-  // search: {
-  //   position: 'relative',
-  //   borderRadius: theme.shape.borderRadius,
-  //   backgroundColor: fade(theme.palette.common.white, 0.15),
-  //   '&:hover': {
-  //     backgroundColor: fade(theme.palette.common.white, 0.25),
-  //   },
-  //   marginRight: theme.spacing(2),
-  //   marginLeft: 0,
-  //   width: '100%',
-  //   [theme.breakpoints.up('sm')]: {
-  //     marginLeft: theme.spacing(3),
-  //     width: 'auto',
-  //   },
-  // },
-  // searchIcon: {
-  //   padding: theme.spacing(0, 2),
-  //   height: '100%',
-  //   position: 'absolute',
-  //   pointerEvents: 'none',
-  //   display: 'flex',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
   inputRoot: {
     color: 'inherit',
   },
@@ -74,16 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sectionDesktop: {
     display: 'flex',
-    // [theme.breakpoints.up('md')]: {
-    //   display: 'flex',
-    // },
   },
-  // sectionMobile: {
-  //   display: 'flex',
-  //   [theme.breakpoints.up('md')]: {
-  //     display: 'none',
-  //   },
-  // },
   modal: {
       display: 'flex',
       alignItems: 'center',
@@ -99,11 +57,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PrimarySearchAppBar(props : any) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const isMenuOpen : boolean = Boolean(anchorEl);
+  const isMobileMenuOpen : boolean = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event : any) => {
     setAnchorEl(event.currentTarget);
@@ -122,69 +80,13 @@ export default function PrimarySearchAppBar(props : any) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  // const menuId = 'primary-search-account-menu';
-  // const renderMenu = (
-  //   <Menu
-  //     anchorEl={anchorEl}
-  //     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-  //     id={menuId}
-  //     keepMounted
-  //     transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-  //     open={isMenuOpen}
-  //     onClose={handleMenuClose}
-  //   >
-  //     <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-  //     <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-  //   </Menu>
-  // );
-
-  // const mobileMenuId = 'primary-search-account-menu-mobile';
-  // const renderMobileMenu = (
-  //   <Menu
-  //     anchorEl={mobileMoreAnchorEl}
-  //     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-  //     id={mobileMenuId}
-  //     keepMounted
-  //     transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-  //     open={isMobileMenuOpen}
-  //     onClose={handleMobileMenuClose}
-  //   >
-  //     <MenuItem>
-  //       <IconButton aria-label="show 4 new mails" color="inherit">
-  //         <Badge badgeContent={4} color="secondary">
-  //           <MailIcon />
-  //         </Badge>
-  //       </IconButton>
-  //       <p>Messages</p>
-  //     </MenuItem>
-  //     <MenuItem>
-  //       <IconButton aria-label="show 11 new notifications" color="inherit">
-  //         <Badge badgeContent={11} color="secondary">
-  //           <NotificationsIcon />
-  //         </Badge>
-  //       </IconButton>
-  //       <p>Notifications</p>
-  //     </MenuItem>
-  //     <MenuItem onClick={handleProfileMenuOpen}>
-  //       <IconButton
-  //         aria-label="account of current user"
-  //         aria-controls="primary-search-account-menu"
-  //         aria-haspopup="true"
-  //         color="inherit"
-  //       >
-  //         <AccountCircle />
-  //       </IconButton>
-  //       <p>Profile</p>
-  //     </MenuItem>
-  //   </Menu>
-  // );
-
   //dark mode 
   const {theme, setTheme} = props;
   const icon = !theme ? <Brightness7Icon /> : <Brightness3Icon />
   
   //modal
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -204,10 +106,10 @@ export default function PrimarySearchAppBar(props : any) {
         timeout: 500,
       }}
     >
-      <Fade in={open}>
+      <Fade in={open} >
         <div className={classes.paper}>
           <h1 id="transition-modal-title">Contact us</h1>
-          <ContactusTable></ContactusTable>
+          <ContactusTable/>
         </div>
       </Fade>
     </Modal>
@@ -220,14 +122,6 @@ export default function PrimarySearchAppBar(props : any) {
     <div className={classes.grow}>
       <AppBar position="fixed">
         <Toolbar>
-          {/* <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton> */}
           <Typography className={classes.title} variant="h6" noWrap>
             TEAM NJYS - Mask CV App
           </Typography>
@@ -244,6 +138,7 @@ export default function PrimarySearchAppBar(props : any) {
               </IconButton>
             </Tooltip>
             <Box mr = "0.5rem"/>
+
             {/* 연락처 모달 */}
             <Tooltip title="contact">
               <IconButton aria-label="contact" color="inherit" onClick={handleOpen}>
@@ -251,6 +146,7 @@ export default function PrimarySearchAppBar(props : any) {
               </IconButton>
             </Tooltip>
             {contactModal}
+
             {/* 깃허브 링크 */}
             <Tooltip title="github repo">
             <IconButton 
@@ -260,33 +156,9 @@ export default function PrimarySearchAppBar(props : any) {
               <GitHubIcon />
             </IconButton>
             </Tooltip>
-
-           {/* <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton> */}
           </div>
-          {/* <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div> */}
         </Toolbar>
       </AppBar>
-      {/* {renderMobileMenu} */}
-      {/* {renderMenu} */}
     </div>
   );
 }
