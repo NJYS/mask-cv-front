@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import { useState } from 'react';
 
 // components
 import WebcamDrawing from './components/WebcamDrawing';
@@ -63,10 +63,7 @@ const useStyles = makeStyles((theme) => ({
       padding : '2em',
       backgroundColor: '#cfe8fc',
       height: '60vh', 
-      //margin: '1em',
       overflow: 'auto',
-      // border: '2px solid palevioletred',
-      //border-radius: '5px',
   },
   progressCircle : {
     margin:'1em'
