@@ -9,20 +9,13 @@ import Realtime from './Realtime';
 import Appbar from './components/Appbar';
 
 // material UI
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import Container from '@material-ui/core/Container';
 import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong';
-import IconButton from '@material-ui/core/IconButton'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import purple from '@material-ui/core/colors/purple';
-import green from '@material-ui/core/colors/green';
-import orange from '@material-ui/core/colors/orange';
 import { CssBaseline } from '@material-ui/core';
 
 

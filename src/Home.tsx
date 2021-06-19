@@ -21,12 +21,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 import Paper from '@material-ui/core/Paper';
-
-//debug
-import {useQuery} from 'react-query';
 interface picture {
     image : string;
-  } 
+} 
 
 const useStyles = makeStyles((theme) => ({
     root : {
@@ -44,10 +41,7 @@ const useStyles = makeStyles((theme) => ({
         padding : '2em',
         backgroundColor: '#cfe8fc',
         height: '60vh', 
-        //margin: '1em',
         overflow: 'auto',
-        // border: '2px solid palevioletred',
-        //border-radius: '5px',
     },
     progressCircle : {
       margin:'1em'
@@ -74,18 +68,24 @@ function Home(){
     const [result, setResult] = useState<string>('');
     const [camState, setCam] = useState<boolean>(false);
     const [fileValue, setFile] = useState<HTMLInputElement>();
-    const token = `${'njys'}:${'1q2w3e4r!'}`;
-    const encodedToken = Buffer.from(token).toString('base64');
-    const headers = { 'Authorization': 'Basic '+ encodedToken };
+
+    // const token = `${'njys'}:${'1q2w3e4r!'}`;
+    // const encodedToken = Buffer.from(token).toString('base64');
+    // const headers = { 'Authorization': 'Basic '+ encodedToken };
+    // const api = axios.create({
+    //   baseURL: `https://boostcamp-nyjs.herokuapp.com/`,
+    //   headers: headers
+    // })
+  
     const api = axios.create({
-      baseURL: `https://boostcamp-nyjs.herokuapp.com/`,
-      headers: headers
+      baseURL: `http://49.50.163.7:6010/`,
     })
   
     const [mutateCreate, {isLoading : isPicLoading}] = useMutation(
-        (data: picture) => api.post('masks/', data), { 
+        (data: picture) => api.post('masks', data), { 
       onSuccess: (res) => {
         setResult(res.data.result)
+        console.log(res)
       },
       onError : () => {
         setResult('전송 오류')
@@ -93,13 +93,12 @@ function Home(){
     })
 
     //api test 용
-    // const {isLoading : isPicLoading, data : testData} = useQuery('hello', () => {axios(`https://ec2-3-36-170-87.ap-northeast-2.compute.amazonaws.com/`)})
+    // const {isLoading : isPicLoading, data : testData} = useQuery('hello', () => {axios(`http://49.50.163.7:6010/hello`)})
     
     // const Submit = (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     //     e.preventDefault();
     //     console.log(testData);
     //   }
-  
     
     useEffect(() => {
       if(camState) {
@@ -119,7 +118,7 @@ function Home(){
         } 
     
         const json : string = JSON.stringify({
-          image : previewURL,
+          data : previewURL,
         })
         const obj : picture = JSON.parse(json);
         mutateCreate(obj);
@@ -149,12 +148,11 @@ function Home(){
     }
 
     const Loading = () => { 
-        return ( 
-            <Box  display="flex" alignItems="center" justifyContent="center" className = {classes.progressCircle}>
-              <CircularProgress color="primary" />
-            </Box>
-            
-            ) 
+      return ( 
+        <Box display="flex" alignItems="center" justifyContent="center" className = {classes.progressCircle}>
+          <CircularProgress color="primary" />
+        </Box>      
+      ) 
     }
 
     const Result = () => {
@@ -181,7 +179,7 @@ function Home(){
       <Grid container spacing={0} direction="column" alignItems="center" justify="center">
           <Box mt="10rem"/>
         <Container maxWidth="sm">
-          <Grid alignItems="center" justify="center">
+          <Grid item>
           <Paper elevation={4} className ={classes.main}>
             {camState ? <WebcamCapture setPreview = {setPreview} camToggle ={camToggle}/> : null}
             {isSetImage?  <Image src={previewURL}/> : null}
@@ -193,13 +191,19 @@ function Home(){
         <Box mb="0.5rem"/>
         <Grid container spacing={5} direction="row" alignItems="center" justify="center">
           <Grid item>
-            <input type = "file" id ="image_uploads" accept="image/*" onClick ={()=>{setResult(''); setPreview('');}} onChange={handleFileInput} className = {classes.input} />
             <label htmlFor="image_uploads">
             <Tooltip title="image upload" placement="left" arrow>
             <IconButton color="primary" aria-label="upload" component="span">
               <AttachmentIcon fontSize = 'large'/>
             </IconButton>
             </Tooltip>
+            <input 
+              type = "file" 
+              id ="image_uploads" 
+              accept="image/*" 
+              onClick ={()=>{setResult(''); setPreview('');}}
+              onChange={handleFileInput} 
+              className = {classes.input} />
             </label>
           </Grid>
           <Grid item>

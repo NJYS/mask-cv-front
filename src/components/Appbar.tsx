@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ContactusTable from './ContactusTable';
 
 import Box from '@material-ui/core/Box';
@@ -7,15 +7,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import Brightness3Icon from "@material-ui/icons/Brightness3";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -99,11 +93,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PrimarySearchAppBar(props : any) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const isMenuOpen : boolean = Boolean(anchorEl);
+  const isMobileMenuOpen : boolean = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event : any) => {
     setAnchorEl(event.currentTarget);
@@ -184,7 +178,8 @@ export default function PrimarySearchAppBar(props : any) {
   const icon = !theme ? <Brightness7Icon /> : <Brightness3Icon />
   
   //modal
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -204,10 +199,10 @@ export default function PrimarySearchAppBar(props : any) {
         timeout: 500,
       }}
     >
-      <Fade in={open}>
+      <Fade in={open} >
         <div className={classes.paper}>
           <h1 id="transition-modal-title">Contact us</h1>
-          <ContactusTable></ContactusTable>
+          <ContactusTable/>
         </div>
       </Fade>
     </Modal>
@@ -244,6 +239,7 @@ export default function PrimarySearchAppBar(props : any) {
               </IconButton>
             </Tooltip>
             <Box mr = "0.5rem"/>
+
             {/* 연락처 모달 */}
             <Tooltip title="contact">
               <IconButton aria-label="contact" color="inherit" onClick={handleOpen}>
@@ -251,6 +247,7 @@ export default function PrimarySearchAppBar(props : any) {
               </IconButton>
             </Tooltip>
             {contactModal}
+
             {/* 깃허브 링크 */}
             <Tooltip title="github repo">
             <IconButton 
