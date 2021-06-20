@@ -55,7 +55,6 @@ const WebcamDrawing = () => {
         (data: picture) => api.post('masks', data), { 
       onSuccess: (res) => {
         const result = JSON.parse(res.data)
-
         if(result['check']){
           setMaskData(result);
         }
@@ -162,6 +161,11 @@ const WebcamDrawing = () => {
         }
       }
     }, 100);
+
+    // clean-up
+    useEffect(() => {
+      return () => setPreview('');
+    }, []);
 
     return (
         <>

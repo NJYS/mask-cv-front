@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
+
   const classes = useStyles();
   const prefersDarkMode : boolean = useMediaQuery('(prefers-color-scheme: dark)');
   const [theme, setTheme] = useState<boolean>(prefersDarkMode) // 다크모드
