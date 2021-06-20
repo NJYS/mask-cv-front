@@ -2,16 +2,15 @@ import {useState} from 'react';
 import ContactusTable from './ContactusTable';
 
 // material-UI
-import Box from '@material-ui/core/Box';
-import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, IconButton, Typography, Modal, Backdrop, Fade, Tooltip } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core/styles/';
+import { AppBar, Box, Toolbar, IconButton, Typography, Modal, Backdrop, Fade, Tooltip } from '@material-ui/core/';
 
 import Brightness3Icon from "@material-ui/icons/Brightness3";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 import MailIcon from '@material-ui/icons/Mail';
 import GitHubIcon from '@material-ui/icons/GitHub';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme : Theme) => ({
   grow: {
     flexGrow: 1,
   },
@@ -50,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar(props : any) {
+export default function PrimarySearchAppBar(props : {theme : boolean, setTheme : React.Dispatch<React.SetStateAction<boolean>> }) {
   const classes = useStyles();
   
   //dark mode 
@@ -89,7 +88,7 @@ export default function PrimarySearchAppBar(props : any) {
   );
 
   // github repository
-  const repoLink : string = "https://github.com/NJYS/mask-cv-front"
+  const repoLink : string = "https://github.com/NJYS/Mask-CV-App"
 
   return (
     <div className={classes.grow}>
