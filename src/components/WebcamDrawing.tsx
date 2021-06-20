@@ -10,7 +10,7 @@ import useInterval from './useInterval';
 import { Grid, Box } from '@material-ui/core';
 import { red, pink, purple, deepPurple, indigo, blue, lightBlue,
          cyan, teal, green, lightGreen, lime, yellow, amber, orange,
-         deepOrange, brown, grey, blueGray } from '@material-ui/core/colors';
+         deepOrange, brown, grey, blueGrey } from '@material-ui/core/colors';
 
 // d3
 import { select } from "d3";
