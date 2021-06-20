@@ -8,9 +8,12 @@ import useInterval from './useInterval';
 
 // material-UI
 import { Grid, Box } from '@material-ui/core';
+import { red, pink, purple, deepPurple, indigo, blue, lightBlue,
+         cyan, teal, green, lightGreen, lime, yellow, amber, orange,
+         deepOrange, brown, grey, blueGray } from '@material-ui/core/colors';
 
 // d3
-import { select} from "d3";
+import { select } from "d3";
 
 interface maskData {
     check : boolean
@@ -25,7 +28,6 @@ const initData : maskData ={
   'labels' : [''],
   'segmentations' : ['0,0']
 }
-
 interface picture {
   image : string;
 } 
@@ -160,7 +162,7 @@ const WebcamDrawing = () => {
           console.log(e);
         }
       }
-    }, 100);
+    }, 1000);
 
     // clean-up
     useEffect(() => {

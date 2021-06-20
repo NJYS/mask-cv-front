@@ -75,6 +75,7 @@ function RealTime(){
 
     const [camState, setCam] = useState<boolean>(false);
     const [interval, setInterval] = useState<number | number[]>(1.0);
+    
     // webcam
     const camToggle = () => {
       setCam(camState => !camState);
