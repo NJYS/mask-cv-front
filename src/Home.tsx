@@ -8,19 +8,11 @@ import ImageResizer from './components/ImageResizer';
 import WebcamCapture from './components/WebcamCapture';
 
 // material UI
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import { Box, Button, Grid, Container, CircularProgress, Tooltip, Typography, Paper } from '@material-ui/core';
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import AttachmentIcon from '@material-ui/icons/Attachment';
-import { makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Tooltip from '@material-ui/core/Tooltip';
-import Paper from '@material-ui/core/Paper';
 interface picture {
     image : string;
 } 
@@ -69,36 +61,27 @@ function Home(){
     const [camState, setCam] = useState<boolean>(false);
     const [fileValue, setFile] = useState<HTMLInputElement>();
 
-    // const token = `${'njys'}:${'1q2w3e4r!'}`;
-    // const encodedToken = Buffer.from(token).toString('base64');
-    // const headers = { 'Authorization': 'Basic '+ encodedToken };
+    const token = `${'njys'}:${'1q2w3e4r!'}`;
+    const encodedToken = Buffer.from(token).toString('base64');
+    const headers = { 'Authorization': 'Basic '+ encodedToken };
+    const api = axios.create({
+      baseURL: `https://boostcamp-nyjs.herokuapp.com/`,
+      headers: headers
+    })
+  
     // const api = axios.create({
-    //   baseURL: `https://boostcamp-nyjs.herokuapp.com/`,
-    //   headers: headers
+    //   baseURL: `http://49.50.163.7:6010/`,
     // })
   
-    const api = axios.create({
-      baseURL: `http://49.50.163.7:6010/`,
-    })
-  
     const [mutateCreate, {isLoading : isPicLoading}] = useMutation(
-        (data: picture) => api.post('masks', data), { 
+        (data: picture) => api.post('masks/', data), { 
       onSuccess: (res) => {
-        setResult(res.data.result)
-        console.log(res)
+        setResult(res.data.result);
       },
       onError : () => {
-        setResult('전송 오류')
+        setResult('전송 오류');
       }
     })
-
-    //api test 용
-    // const {isLoading : isPicLoading, data : testData} = useQuery('hello', () => {axios(`http://49.50.163.7:6010/hello`)})
-    
-    // const Submit = (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    //     e.preventDefault();
-    //     console.log(testData);
-    //   }
     
     useEffect(() => {
       if(camState) {
@@ -118,7 +101,7 @@ function Home(){
         } 
     
         const json : string = JSON.stringify({
-          data : previewURL,
+          image : previewURL,
         })
         const obj : picture = JSON.parse(json);
         mutateCreate(obj);
@@ -210,7 +193,7 @@ function Home(){
             <label htmlFor="open_webcam">
             <Tooltip title="webcam on" arrow>
             <IconButton color="primary" aria-label="open_webcam" component="span" onClick={camToggle} >
-                <PhotoCamera fontSize = 'large'/>
+              <PhotoCamera fontSize = 'large'/>
             </IconButton>
             </Tooltip>
             </label>

@@ -1,20 +1,15 @@
 import {useState} from 'react';
 import ContactusTable from './ContactusTable';
 
+// material-UI
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import { AppBar, Toolbar, IconButton, Typography, Modal, Backdrop, Fade, Tooltip } from '@material-ui/core';
+
 import Brightness3Icon from "@material-ui/icons/Brightness3";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 import MailIcon from '@material-ui/icons/Mail';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -57,29 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PrimarySearchAppBar(props : any) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-
-  const isMenuOpen : boolean = Boolean(anchorEl);
-  const isMobileMenuOpen : boolean = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event : any) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event : any) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
+  
   //dark mode 
   const {theme, setTheme} = props;
   const icon = !theme ? <Brightness7Icon /> : <Brightness3Icon />
@@ -139,7 +112,6 @@ export default function PrimarySearchAppBar(props : any) {
             </Tooltip>
             <Box mr = "0.5rem"/>
 
-            {/* 연락처 모달 */}
             <Tooltip title="contact">
               <IconButton aria-label="contact" color="inherit" onClick={handleOpen}>
                 <MailIcon />
@@ -147,7 +119,6 @@ export default function PrimarySearchAppBar(props : any) {
             </Tooltip>
             {contactModal}
 
-            {/* 깃허브 링크 */}
             <Tooltip title="github repo">
             <IconButton 
               aria-label="link to github"

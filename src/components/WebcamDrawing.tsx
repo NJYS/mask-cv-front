@@ -1,12 +1,14 @@
 
-import React, { useRef, useState, useEffect, useCallback} from 'react';
+import { useRef, useState, useEffect, useCallback} from 'react';
 import axios from 'axios';
 import { useMutation } from 'react-query';
 import Webcam from 'react-webcam';
+
 import useInterval from './useInterval';
 
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+// material-UI
+import { Grid, Box } from '@material-ui/core';
+
 // d3
 import { select} from "d3";
 

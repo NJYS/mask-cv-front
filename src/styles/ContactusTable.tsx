@@ -1,12 +1,6 @@
-import React from 'react';
+// material-UI
 import { withStyles, Theme, createStyles, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper  } from '@material-ui/core/';
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
@@ -35,11 +29,11 @@ function createData(name: string, part: string, mail: string, github: string) {
 }
 
 const rows = [
-  createData('김규빈', "model,data","aaa@naver.com","www.abc.com"),
-  createData('권태확', "model,data","bbb@naver.com","www.abc.com"),
-  createData('김상훈', "front","bbb@naver.com","www.abc.com"),
-  createData('박경환', "back","bbb@naver.com","www.abc.com"),
-  createData('전주영', "front","bbb@naver.com","www.abc.com"),
+  createData('김규빈', "model,data","kimkyu1515@naver.com","https://github.com/kkbwilldo"),
+  createData('권태확', "model,data","taehwak@hanyang.ac.kr","https://github.com/taehwakkwon"),
+  createData('김상훈', "front","ropeiny@gmail.com","https://github.com/simon-hoon"),
+  createData('박경환', "back","john1725258@gmail.com","https://github.com/hwan1753"),
+  createData('전주영', "front","zhonya_j@g.seoultech.ac.kr","https://github.com/zhonya-j"),
 ];
 
 const useStyles = makeStyles({
@@ -56,7 +50,6 @@ export default function CustomizedTables() {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            
             <StyledTableCell>name</StyledTableCell>
             <StyledTableCell align="center">part&nbsp;</StyledTableCell>
             <StyledTableCell align="center">mail&nbsp;</StyledTableCell>
