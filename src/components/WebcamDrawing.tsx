@@ -75,7 +75,7 @@ const WebcamDrawing = (props : toggles) => {
 
     // AWS
     const api = axios.create({
-      baseURL: `http://54.180.91.142/`,
+      baseURL: `https://www.njysmask.com/`,
     })
 
 
