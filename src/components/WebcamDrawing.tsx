@@ -87,7 +87,7 @@ const WebcamDrawing = (props : toggles) => {
     const [mutateCreate] = useMutation(
       (data: picture) => api.get(''), { 
     onSuccess: (res) => {
-      console.log(res.data)
+      console.log(res)
     },
     onError : (e) => {
       console.log(e);
