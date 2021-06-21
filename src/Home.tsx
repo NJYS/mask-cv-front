@@ -77,8 +77,6 @@ function Home(){
         setResult('전송 오류');
       }
     })
-
-    const test = 3;
     
     useEffect(() => {
       if(camState) {
