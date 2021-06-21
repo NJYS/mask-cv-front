@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import axios from 'axios';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import Image from 'material-ui-image'
 
 // components
@@ -73,15 +73,15 @@ function Home(){
     //   baseURL: `http://49.50.163.7:6010/`,
     // })
   
-    const [mutateCreate, {isLoading : isPicLoading}] = useMutation(
-        (data: picture) => api.post('masks/', data), { 
-      onSuccess: (res) => {
-        setResult(res.data.result);
-      },
-      onError : () => {
-        setResult('전송 오류');
-      }
-    })
+    // const [mutateCreate, {isLoading : isPicLoading}] = useMutation(
+    //     (data: picture) => api.post('masks/', data), { 
+    //   onSuccess: (res) => {
+    //     setResult(res.data.result);
+    //   },
+    //   onError : () => {
+    //     setResult('전송 오류');
+    //   }
+    // })
     
     useEffect(() => {
       if(camState) {
@@ -91,21 +91,28 @@ function Home(){
       else if(previewURL !== '') setImage(true);
     }, [camState, previewURL, setPreview, setImage]);
   
+        //api test 용
+    const {isLoading : isPicLoading, data : testData} = useQuery('', () => {axios(`https://ec2-3-36-170-87.ap-northeast-2.compute.amazonaws.com/`)})
     
     const Submit = (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+        console.log(testData);
+      }
     
-        if(previewURL === '') { 
-          setResult('파일이 없습니다.');
-          return;
-        } 
+    // const Submit = (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    //     e.preventDefault();
     
-        const json : string = JSON.stringify({
-          image : previewURL,
-        })
-        const obj : picture = JSON.parse(json);
-        mutateCreate(obj);
-    }
+    //     if(previewURL === '') { 
+    //       setResult('파일이 없습니다.');
+    //       return;
+    //     } 
+    
+    //     const json : string = JSON.stringify({
+    //       image : previewURL,
+    //     })
+    //     const obj : picture = JSON.parse(json);
+    //     mutateCreate(obj);
+    // }
     
     const handleFileInput = async (e : React.FormEvent<HTMLInputElement>) => {
       e.preventDefault();

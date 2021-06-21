@@ -14,7 +14,6 @@ import { red, pink, purple, deepPurple, indigo, blue,
 
 // d3
 import { select } from "d3";
-
 interface maskData {
     check : boolean
     bboxes : number[][],
@@ -75,40 +74,24 @@ const WebcamDrawing = (props : toggles) => {
     // })
 
     // AWS
-    // const api = axios.create({
-    //   baseURL: `http://54.180.91.142/`,
-    // })
-
-    //debug
     const api = axios.create({
-      baseURL: `https://ec2-3-36-170-87.ap-northeast-2.compute.amazonaws.com/`,
+      baseURL: `http://54.180.91.142/`,
     })
 
+
     const [mutateCreate] = useMutation(
-      (data: picture) => api.get(''), { 
-    onSuccess: (res) => {
-      console.log(res)
-    },
-    onError : (e) => {
-      console.log(e);
-    }
-  })
-
-
-  
-    // const [mutateCreate] = useMutation(
-    //     (data: picture) => api.post('masks', data), { 
-    //   onSuccess: (res) => {
-    //     const result = JSON.parse(res.data)
-    //     if(result['check']){ // success
-    //       setMaskData(result);
-    //     } 
-    //     else { colorChange(); } // success without results
-    //   },
-    //   onError : (e) => {
-    //     console.log(e);
-    //   }
-    // })
+        (data: picture) => api.post('masks', data), { 
+      onSuccess: (res) => {
+        const result = JSON.parse(res.data)
+        if(result['check']){ // success
+          setMaskData(result);
+        } 
+        else { colorChange(); } // success without results
+      },
+      onError : (e) => {
+        console.log(e);
+      }
+    })
 
     // set new 10 colors! 
     const colorChange = useCallback(() => {
