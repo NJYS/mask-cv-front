@@ -151,7 +151,7 @@ const WebcamDrawing = (props : toggles) => {
         .attr('font-size', "11px")
         .attr('text-align', 'center')
         .data(colorNumbers)
-        .attr('fill', (data : number) => colors[data % 5 + 5])
+        .attr('fill', (data : number) => colors[data % 8 + 8])
         .attr('stroke-width', 1)
     } else select("text").remove();
     }, [bboxData, labelData, props.classification, colors, colorNumbers]);
@@ -175,7 +175,7 @@ const WebcamDrawing = (props : toggles) => {
         .attr('y', (data : number[]) => data[1])
         .attr('fill', 'transparent')
         .data(colorNumbers)
-        .attr('stroke', (data : number) => colors[9 - data])
+        .attr('stroke', (data : number) => colors[15 - data])
         .attr('stroke-width', 2)
       } else select("rect").remove();
     }, [bboxData, props.detection, colors, colorNumbers]);
