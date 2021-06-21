@@ -54,7 +54,6 @@ theme.typography.h3 = {
 
 function Home(){
     const classes = useStyles();
-
     const [previewURL, setPreview] = useState<string>('');
     const [isSetImage, setImage] = useState<boolean>(false);
     const [result, setResult] = useState<string>('');
@@ -78,6 +77,8 @@ function Home(){
         setResult('전송 오류');
       }
     })
+
+    const test = 3;
     
     useEffect(() => {
       if(camState) {
