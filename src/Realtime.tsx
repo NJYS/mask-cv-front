@@ -74,9 +74,9 @@ function RealTime(){
     const classes = useStyles();
 
     const [camState, setCam] = useState<boolean>(false);
-    const [classState, setClass] = useState<boolean>(false);
-    const [segState, setSeg] = useState<boolean>(false);
-    const [detState, setDet] = useState<boolean>(false);
+    const [classState, setClass] = useState<boolean>(true);
+    const [segState, setSeg] = useState<boolean>(true);
+    const [detState, setDet] = useState<boolean>(true);
     const [interval, setInterval] = useState<number | number[]>(7);
     
     // webcam
