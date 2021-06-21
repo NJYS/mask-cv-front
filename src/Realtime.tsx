@@ -62,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
   main : {
       padding : '2em',
       backgroundColor: '#757de8',
-      dark: '#002984',
       height: '60vh', 
       overflow: 'auto',
   },
