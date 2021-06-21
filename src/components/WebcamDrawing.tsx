@@ -46,9 +46,9 @@ const initData : maskData ={
 
 // 16 colors
 const initColors :string[] = [
-  red[400], pink[400], purple[400], deepPurple[400], indigo[400], blue[400],
-  lightBlue[400], cyan[400], teal[400], green[400], lightGreen[400],
-  lime[400], yellow[400], amber[400], orange[400], deepOrange[400]
+  red[400], orange[400], amber[400], deepPurple[400], blue[400],
+  lightGreen[400], cyan[400], deepOrange[400], green[400], lightBlue[400], 
+  indigo[400], yellow[400], purple[400], pink[400], teal[400], lime[400]
 ]
 
 const videoConstraints = {

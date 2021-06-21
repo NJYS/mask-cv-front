@@ -151,7 +151,7 @@ function RealTime(){
           <Grid item>
             <Typography gutterBottom>　　fps 설정　　</Typography>
             <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" 
-              defaultValue={7} min = {1} max = {15} step = {1} 
+              defaultValue={5} min = {1} max = {10} step = {1} 
               onChange = {(e, value : number | number[]) => {setInterval(value)}}
             />
           </Grid>
