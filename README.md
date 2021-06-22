@@ -3,6 +3,10 @@
 
 배포 사이트 : https://mask-cv.netlify.app/   
 
+## How to Run
+
+npm install && npm start (or npm run build)
+
 ## 통합 Repository [model + front + back] 
 https://github.com/NJYS/Mask-CV-App
 
