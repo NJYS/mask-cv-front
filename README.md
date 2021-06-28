@@ -12,7 +12,8 @@ npm install && npm start (or npm run build)
 https://github.com/NJYS/Mask-CV-App
 
 ## Front-end Tech stack
-![image](https://user-images.githubusercontent.com/54058621/122784136-2a147d00-d2ed-11eb-9791-94fd3354b6e7.png)
+![image](https://user-images.githubusercontent.com/54058621/123652707-7e78a900-d867-11eb-8f13-76bd4bed528e.png)
+
 
 
 ## 시연
