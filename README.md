@@ -17,4 +17,7 @@ https://github.com/NJYS/Mask-CV-App
 
 
 ## 시연
-<img src = "https://user-images.githubusercontent.com/54058621/122792489-2edd2f00-d2f5-11eb-83d6-6a0069ea18a9.gif" width = "50%" height = "50%">
+
+원본 영상 (high frame) : https://youtu.be/K9-53AvAGzk 
+
+<img src = "https://user-images.githubusercontent.com/54058621/124644782-9686a300-decd-11eb-9c20-d52af19b5cb9.gif" width = "50%" height = "50%">
